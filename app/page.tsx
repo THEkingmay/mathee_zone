@@ -1,7 +1,12 @@
-export default function Home(){
+import About from "./components/About"
+import Home from "./components/Home"
+import Projects from "./components/Projects"
+export default function App(){
   return(
-    <div>
-      Mathee
-    </div>
-  )
+      <>
+      <Home/>
+      <Projects/>  
+      <About/>
+      </>
+  ) 
 }
