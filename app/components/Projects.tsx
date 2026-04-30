@@ -1,77 +1,72 @@
 import { GetProjects } from "../admin/action"
 import { GrGithub } from "react-icons/gr"
-import { FiExternalLink } from "react-icons/fi"
+import { FiExternalLink, FiStar } from "react-icons/fi"
 
 export default async function Projects() {
   const projects = (await GetProjects()).data
 
   if (!projects || projects.length === 0) {
     return (
-      <section id="projects" className="w-full min-h-screen py-24 bg-white text-black">
-        <div className="max-w-6xl mx-auto px-6 md:px-12">
-          <h2 className="text-3xl font-bold mb-16 text-center tracking-tight">
-            Featured Projects
-          </h2>
-          <p className="text-center text-black/70">No projects to display at the moment.</p>
-        </div>
+      <section id="projects" className="w-full py-24 bg-white text-black text-center">
+        <p className="text-gray-400 italic">No projects to display yet.</p>
       </section>
     )
   }
+
+  // Sort: Recommended first, then newest
+  const sortedProjects = [...projects].sort((a, b) => {
+    if (a.isRecommended && !b.isRecommended) return -1;
+    if (!a.isRecommended && b.isRecommended) return 1;
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
+
   return (
-    <section id="projects" className="w-full min-h-screen py-24 bg-white text-black">
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
-        <h2 className="text-3xl font-bold mb-16 text-center tracking-tight">
-          Featured Projects
-        </h2>
+    <section id="projects" className="w-full py-24 bg-white text-black border-t border-gray-100">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold tracking-tight mb-2">Projects</h2>
+          <div className="h-1 w-12 bg-black rounded-full"></div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project) => (
+          {sortedProjects.map((project) => (
             <div
               key={project.id}
-              className="group flex flex-col border border-black/10 rounded-2xl p-6 hover:shadow-xl hover:border-black/20 transition-all duration-300 bg-white"
+              className="flex flex-col bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="flex justify-between items-start mb-4">
-                <h3 className="text-xl font-semibold tracking-tight">
-                  {project.name}
-                </h3>
+                <div className="flex flex-col gap-1">
+                  {project.isRecommended && (
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-600 uppercase tracking-wider">
+                      <FiStar size={10} /> Recommended
+                    </span>
+                  )}
+                  <h3 className="text-xl font-bold">{project.name}</h3>
+                </div>
                 {project.demoLink && (
-                  <a
-                    href={project.demoLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="opacity-60 hover:opacity-100 transition-opacity"
-                  >
+                  <a href={project.demoLink} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-black">
                     <FiExternalLink size={20} />
                   </a>
                 )}
               </div>
 
-              <p className="text-black/70 mb-6 flex-grow text-sm leading-relaxed">
+              <p className="text-gray-600 text-sm mb-6 flex-grow leading-relaxed">
                 {project.description}
               </p>
 
               <div className="flex flex-wrap gap-2 mb-6">
-                {project.tags?.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="text-[11px] font-medium px-3 py-1 bg-black/5 text-black/70 rounded-full border border-black/5"
-                  >
+                {project.tags?.map((tag, i) => (
+                  <span key={i} className="text-[10px] px-2 py-1 bg-gray-50 text-gray-500 rounded border border-gray-100 uppercase font-medium">
                     {tag}
                   </span>
                 ))}
               </div>
 
-              <div className="flex gap-4 mt-auto pt-4 border-t border-black/5">
-                {project.githubLinks?.map((link, index) => (
-                  <a
-                    key={index}
-                    href={link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center gap-2 text-sm font-medium opacity-70 hover:opacity-100 transition-opacity"
-                  >
-                    <GrGithub size={18} />
-                    <span>Repository</span>
+              <div className="flex gap-4 pt-4 border-t border-gray-50">
+                {project.githubLinks?.map((link, i) => (
+                  <a key={i} href={link} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs font-semibold text-gray-500 hover:text-black">
+                    <GrGithub size={16} />
+                    <span>Repo {project.githubLinks && project.githubLinks.length > 1 ? i + 1 : ""}</span>
                   </a>
                 ))}
               </div>

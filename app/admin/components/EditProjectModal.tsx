@@ -25,7 +25,19 @@ export default function EditProjectModal({
     githubLinks: "",
     demoLink: "",
     tags: "",
+    isRecommended: false,
   });
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   useEffect(() => {
     if (project && isOpen) {
@@ -35,6 +47,7 @@ export default function EditProjectModal({
         demoLink: project.demoLink || "",
         githubLinks: project.githubLinks ? project.githubLinks.join(", ") : "",
         tags: project.tags ? project.tags.join(", ") : "",
+        isRecommended: project.isRecommended || false,
       });
       setError('');
       setIsConfirmDeleteOpen(false);
@@ -42,15 +55,19 @@ export default function EditProjectModal({
   }, [project, isOpen]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+    setFormData((prev) => ({ 
+      ...prev, 
+      [name]: type === 'checkbox' ? checked : value 
+    }));
     if (error) setError('');
   };
 
   const handleClose = () => {
     setError('');
     setIsConfirmDeleteOpen(false);
-    setFormData({ name: "", description: "", githubLinks: "", demoLink: "", tags: "" });
+    setFormData({ name: "", description: "", githubLinks: "", demoLink: "", tags: "", isRecommended: false });
     onClose();
   };
 
@@ -71,6 +88,7 @@ export default function EditProjectModal({
         tags: formData.tags
           ? formData.tags.split(",").map(tag => tag.trim()).filter(Boolean)
           : null,
+        isRecommended: formData.isRecommended,
       };
 
       setLoading(true);
@@ -201,6 +219,21 @@ export default function EditProjectModal({
                       disabled={loading}
                       className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black disabled:bg-gray-100 disabled:text-gray-500"
                     />
+                  </div>
+
+                  <div className="mt-2 flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="isRecommended"
+                      name="isRecommended"
+                      checked={formData.isRecommended}
+                      onChange={handleChange}
+                      disabled={loading}
+                      className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
+                    />
+                    <label htmlFor="isRecommended" className="text-sm font-medium text-gray-700">
+                      Recommend this project
+                    </label>
                   </div>
                 </div>
               </div>

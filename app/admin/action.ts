@@ -16,7 +16,10 @@ export async function InsertProjects(payload: InsertProjectPayload) {
             return { success: false, error: result.error.format() };
         }
 
-        await db.insert(projects).values(result.data)
+        await db.insert(projects).values({
+            ...result.data,
+            isRecommended: payload.isRecommended ?? false
+        })
 
         return { success: true, data: result.data };
 
@@ -25,7 +28,7 @@ export async function InsertProjects(payload: InsertProjectPayload) {
     }
 }
 
-export async function UpdateProjects(payload: InsertProjectPayload) {
+export async function UpdateProjects(payload: InsertProjectPayload & { isRecommended?: boolean }) {
     try {
 
         const user = await getServerSession()
@@ -46,6 +49,7 @@ export async function UpdateProjects(payload: InsertProjectPayload) {
                 demoLink: result.data.demoLink,
                 githubLinks: result.data.githubLinks,
                 tags: result.data.tags,
+                isRecommended: payload.isRecommended ?? false
             })
             .where(eq(projects.id, payload.id));
 

@@ -11,10 +11,14 @@ interface ProjectZodWithClick extends ProjectZod {
     onClick: () => void
 }
 
-const ProjectCard = ({ name, description, demoLink, githubLinks, tags, onClick }: ProjectZodWithClick) => {
+const ProjectCard = ({ name, description, demoLink, githubLinks, tags, onClick, isRecommended }: ProjectZodWithClick) => {
     return (
-        <div onClick={onClick} className="group flex min-h-[220px] cursor-pointer flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:border-black hover:shadow-md">
-            {/* ใส่ group-hover ให้ชื่อโปรเจกต์เปลี่ยนสีนิดหน่อยเวลานำเมาส์ไปชี้ที่การ์ด */}
+        <div onClick={onClick} className="group relative flex min-h-[220px] cursor-pointer flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:border-black hover:shadow-md">
+            {isRecommended && (
+                <div className="absolute top-2 right-2 px-2 py-0.5 bg-yellow-100 text-yellow-700 text-[10px] font-bold rounded-full">
+                    Recommended
+                </div>
+            )}
             <h3 className="line-clamp-1 text-lg font-bold tracking-tight text-gray-900 transition-colors group-hover:text-blue-600" title={name}>
                 {name}
             </h3>
