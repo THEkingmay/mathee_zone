@@ -5,21 +5,21 @@ import { BiLogoGmail } from "react-icons/bi";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { FiDownload, FiEye } from "react-icons/fi";
 
-const TechBadge = ({ name, isExpert } : {name : string , isExpert : boolean}) => {
-    const baseStyle = "rounded-full font-medium inline-flex items-center justify-center text-[0.75rem] px-4 py-1.5 m-1 transition-all duration-300";
-    const expertStyle = "bg-black text-white shadow-sm hover:scale-105";
-    const normalStyle = "bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 hover:text-black";
+const TechBadge = ({ name, isExpert }: { name: string, isExpert: boolean }) => {
+  const baseStyle = "rounded-full font-medium inline-flex items-center justify-center text-[0.75rem] px-4 py-1.5 m-1 transition-all duration-300";
+  const expertStyle = "bg-black text-white shadow-sm hover:scale-105";
+  const normalStyle = "bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 hover:text-black";
 
-    return (
-        <span className={`${baseStyle} ${isExpert ? expertStyle : normalStyle}`}>
-            {name}
-        </span>
-    );
+  return (
+    <span className={`${baseStyle} ${isExpert ? expertStyle : normalStyle}`}>
+      {name}
+    </span>
+  );
 };
 
 export default function Home() {
   const expertSkills = ['Next.js', 'React', 'TypeScript', 'JavaScript'];
-  const otherSkills = ['Node.js','ORM', 'GIT' , 'DOCKER' , 'Python', 'Tailwind', 'SQL'];
+  const otherSkills = ['Node.js', 'ORM', 'GIT', 'DOCKER', 'Python', 'Tailwind', 'SQL'];
 
   return (
     <div className="w-full flex flex-col justify-center items-center min-h-screen bg-[#fafafa] text-black overflow-hidden relative">
@@ -42,35 +42,35 @@ export default function Home() {
         </h1>
 
         <p className="mb-8 text-gray-500 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-          Computer Science Student at KU. <br className="hidden md:block" /> 
+          Computer Science Student at KU. <br className="hidden md:block" />
           Crafting digital experiences with <span className="font-medium text-black underline decoration-gray-300 underline-offset-4">purpose</span> and <span className="font-medium text-black underline decoration-gray-300 underline-offset-4">precision</span>.
         </p>
 
         <div className="mb-12">
-            <div className="flex flex-wrap justify-center mb-3">
-                {expertSkills.map(s => (
-                    <TechBadge key={s} name={s} isExpert={true} />
-                ))}
-            </div>
-            <div className="flex flex-wrap justify-center">
-                {otherSkills.map(s => (
-                    <TechBadge key={s} name={s} isExpert={false} />
-                ))}
-            </div>
+          <div className="flex flex-wrap justify-center mb-3">
+            {expertSkills.map(s => (
+              <TechBadge key={s} name={s} isExpert={true} />
+            ))}
+          </div>
+          <div className="flex flex-wrap justify-center">
+            {otherSkills.map(s => (
+              <TechBadge key={s} name={s} isExpert={false} />
+            ))}
+          </div>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-          <a 
-            href="/resume.pdf" 
-            target="_blank" 
+          <a
+            href="/resume.pdf"
+            target="_blank"
             className="flex items-center justify-center gap-2 px-8 py-4 bg-black text-white rounded-full font-medium transition-all hover:bg-gray-800 hover:shadow-lg hover:-translate-y-1 active:scale-95"
           >
             <FiEye className="text-lg" />
             View Resume
           </a>
-          <a 
-            href="/resume.pdf" 
-            download 
+          <a
+            href="/resume.pdf"
+            download
             className="flex items-center justify-center gap-2 px-8 py-4 bg-white text-black border border-gray-200 rounded-full font-medium transition-all hover:border-black hover:shadow-md hover:-translate-y-1 active:scale-95"
           >
             <FiDownload className="text-lg" />
@@ -88,10 +88,10 @@ export default function Home() {
           <a href="https://www.facebook.com/mathee.rewbumrung/" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-black transition-all hover:-translate-y-1" title="Facebook">
             <CiFacebook size={28} />
           </a>
-          <a href="mailto:beerranee@gmail.com" className="text-gray-400 hover:text-black transition-all hover:-translate-y-1" title="Email">
+          <a href="mailto:mathee.developer@gmail.com" className="text-gray-400 hover:text-black transition-all hover:-translate-y-1" title="Email">
             <BiLogoGmail size={26} />
           </a>
-          <a href="tel:+66627768686" className="text-gray-400 hover:text-black transition-all hover:-translate-y-1" title="Phone">
+          <a href="tel:+66982474174" className="text-gray-400 hover:text-black transition-all hover:-translate-y-1" title="Phone">
             <BsFillTelephoneFill size={20} />
           </a>
         </div>
